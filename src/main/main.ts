@@ -193,25 +193,23 @@ function hideMainWindow() {
     if (windowExists(mainWindow)) {
         mainWindow.webContents.send(IpcChannels.mainWindowHasBeenHidden);
 
-        setTimeout(() => {
-            updateMainWindowSize(0, config.appearanceOptions);
-            if (windowExists(mainWindow)) {
-                // this is a workaround to restore the focus on the previously focussed window
-                if (operatingSystem === OperatingSystem.Windows) {
-                    mainWindow.minimize();
-                }
-                mainWindow.hide();
+        updateMainWindowSize(0, config.appearanceOptions);
+        if (windowExists(mainWindow)) {
+            // this is a workaround to restore the focus on the previously focussed window
+            if (operatingSystem === OperatingSystem.Windows) {
+                mainWindow.minimize();
+            }
+            mainWindow.hide();
 
-                // this is a workaround to restore the focus on the previously focussed window
-                if (operatingSystem === OperatingSystem.macOS) {
-                    if (!settingsWindow
-                        || (settingsWindow && settingsWindow.isDestroyed())
-                        || (settingsWindow && !settingsWindow.isDestroyed() && !settingsWindow.isVisible())) {
-                        app.hide();
-                    }
+            // this is a workaround to restore the focus on the previously focussed window
+            if (operatingSystem === OperatingSystem.macOS) {
+                if (!settingsWindow
+                    || (settingsWindow && settingsWindow.isDestroyed())
+                    || (settingsWindow && !settingsWindow.isDestroyed() && !settingsWindow.isVisible())) {
+                    app.hide();
                 }
             }
-        }, 25);
+        }
     }
 }
 
@@ -633,14 +631,16 @@ function registerAllIpcListeners() {
     });
 
     ipcMain.on(IpcChannels.execute, (event, userInput: string, searchResultItem: SearchResultItem, privileged: boolean) => {
+        userInputHistoryManager.addItem(userInput);
+        if (searchResultItem.hideMainWindowAfterExecution && config.generalOptions.hideMainWindowAfterExecution) {
+            hideMainWindow();
+        } else {
+            updateMainWindowSize(0, config.appearanceOptions);
+        }
+
         searchEngine.execute(searchResultItem, privileged)
             .then(() => {
-                userInputHistoryManager.addItem(userInput);
-                if (searchResultItem.hideMainWindowAfterExecution && config.generalOptions.hideMainWindowAfterExecution) {
-                    hideMainWindow();
-                } else {
-                    updateMainWindowSize(0, config.appearanceOptions);
-                }
+                // do nothing
             })
             .catch((err) => logger.error(err))
             .finally(() => event.sender.send(IpcChannels.executionFinished));
