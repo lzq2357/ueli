@@ -11,6 +11,7 @@ import { OpenLocationPlugin } from "../../open-location-plugin";
 import { FileSearchOption } from "../../executors/file-searchers";
 import { defaultFileIcon, defaultFolderIcon } from "../../../common/icon/default-icons";
 import { AutoCompletionPlugin } from "../../auto-completion-plugin";
+import {fuseSearch} from "../../search-utils";
 
 export class SimpleFolderSearchPlugin implements SearchPlugin, AutoCompletionPlugin, OpenLocationPlugin {
     public pluginType = PluginType.SimpleFolderSearch;
@@ -113,5 +114,14 @@ export class SimpleFolderSearchPlugin implements SearchPlugin, AutoCompletionPlu
             supportsOpenLocation: true,
             supportsAutocompletion: true,
         };
+    }
+
+    search(userInput: string): Promise<SearchResultItem[]> {
+        return new Promise((resolve) => {
+            const results = this.items.map((item) => this.buildSearchResultItem(item));
+            const searchResults = fuseSearch(results, userInput);
+
+            resolve(searchResults);
+        });
     }
 }

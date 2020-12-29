@@ -8,6 +8,7 @@ import { WorkflowExecutionStep } from "./workflow-execution-argument";
 import { WorkflowExecutionArgumentType } from "./workflow-execution-argument-type";
 import { Workflow } from "./workflow";
 import { defaultWorkflowIcon } from "../../../common/icon/default-icons";
+import {fuseSearch} from "../../search-utils";
 
 export class WorkflowPlugin implements SearchPlugin {
     public pluginType = PluginType.Workflow;
@@ -94,5 +95,25 @@ export class WorkflowPlugin implements SearchPlugin {
             case WorkflowExecutionArgumentType.URL:
                 return this.urlExecutor(executionStep.executionArgument);
         }
+    }
+
+    search(userInput: string): Promise<SearchResultItem[]> {
+        return new Promise((resolve) => {
+            const result = this.config.workflows.map((workflow): SearchResultItem => {
+                return {
+                    description: workflow.description,
+                    executionArgument: this.encodeExecutionArguments(workflow),
+                    hideMainWindowAfterExecution: true,
+                    icon: workflow.icon || defaultWorkflowIcon,
+                    name: workflow.name,
+                    needsUserConfirmationBeforeExecution: workflow.needsUserConfirmationBeforeExecution,
+                    originPluginType: this.pluginType,
+                    searchable: [...workflow.tags, workflow.name],
+                };
+            });
+            const searchResults = fuseSearch(result, userInput);
+
+            resolve(searchResults);
+        });
     }
 }

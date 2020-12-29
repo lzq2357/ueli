@@ -1,4 +1,4 @@
-import Fuse from "fuse.js";
+// import Fuse from "fuse.js";
 import { SearchResultItem } from "../common/search-result-item";
 import { SearchPlugin } from "./search-plugin";
 import { UserConfigOptions } from "../common/config/user-config-options";
@@ -38,7 +38,7 @@ export class SearchEngine {
         this.translationSet = translationSet;
         this.config = config;
         this.logExecution = logExecution,
-        this.searchPlugins = searchPlugins;
+            this.searchPlugins = searchPlugins;
         this.executionPlugins = executionPlugins;
         this.fallbackPlugins = fallbackPlugins;
         this.favoriteManager = new FavoriteManager(favoriteRepository, translationSet);
@@ -134,6 +134,7 @@ export class SearchEngine {
     }
 
     public refreshAllIndexes(): Promise<void> {
+        //调用所有插件的 refreshIndex
         return new Promise((resolve, reject) => {
             Promise.all(this.searchPlugins.filter((plugin) => plugin.isEnabled()).map((plugin) => plugin.refreshIndex()))
                 .then(() => resolve())
@@ -180,29 +181,34 @@ export class SearchEngine {
         return this.favoriteManager.clearExecutionLog();
     }
 
+    // 获取结果：所有插件执行一遍，然后用fuse过滤一遍
     private getSearchPluginsResult(userInput: string): Promise<SearchResultItem[]> {
         return new Promise((resolve, reject) => {
-            const pluginPromises = this.searchPlugins
+            const pluginPromises: Promise<SearchResultItem[]>[] = this.searchPlugins
                 .filter((plugin) => plugin.isEnabled())
-                .map((plugin) => plugin.getAll());
+                .map((plugin) => plugin.search(userInput));
+
 
             Promise.all(pluginPromises)
                 .then((pluginsResults) => {
-                    const all = pluginsResults.length > 0
+                    //then 获取到结果，连接成一个大数组
+                    const fuseResult:any[] = pluginsResults.length > 0
                         ? pluginsResults.reduce((a, r) => a = a.concat(r))
                         : [];
 
-                    const fuse = new Fuse(all, {
-                        distance: 100,
-                        includeScore: true,
-                        keys: ["searchable"],
-                        location: 0,
-                        minMatchCharLength: 1,
-                        shouldSort: true,
-                        threshold: this.config.fuzzyness,
-                    });
+                    // const fuse = new Fuse(all, {
+                    //     distance: 100,
+                    //     includeScore: true,
+                    //     keys: ["searchable"],
+                    //     location: 0,
+                    //     minMatchCharLength: 1,
+                    //     shouldSort: true,
+                    //     threshold: this.config.fuzzyness,
+                    // });
+                    //
+                    // const fuseResult = fuse.search(userInput) as any[];
+                    //
 
-                    const fuseResult = fuse.search(userInput) as any[];
 
                     if (this.logExecution) {
                         fuseResult.forEach((fuseResultItem: FuseResult) => {

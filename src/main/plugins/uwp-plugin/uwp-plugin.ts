@@ -5,6 +5,7 @@ import { TranslationSet } from "../../../common/translation/translation-set";
 import { PluginType } from "../../plugin-type";
 import { UwpApplication } from "./uwp-application";
 import { UwpSearchOptions } from "../../../common/config/uwp-search-options";
+import {fuseSearch} from "../../search-utils";
 
 export class UwpPlugin implements SearchPlugin {
     public pluginType = PluginType.Uwp;
@@ -69,5 +70,13 @@ export class UwpPlugin implements SearchPlugin {
             originPluginType: this.pluginType,
             searchable: [uwpApp.name],
         }));
+    }
+
+    search(userInput: string): Promise<SearchResultItem[]> {
+        return new Promise((resolve) => {
+            const results = this.createSearchResults(this.uwpApps);
+            const searchResults = fuseSearch(results, userInput);
+            resolve(searchResults)
+        });
     }
 }

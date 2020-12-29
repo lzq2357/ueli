@@ -9,6 +9,7 @@ import { ControlPanelItem } from "./control-panel-item";
 import { defaultControlPanelIcon } from "../../../common/icon/default-icons";
 import { ControlPanelItemsRetriever } from "./control-panel-items-retriever";
 import { executeCommand } from "../../executors/command-executor";
+import {fuseSearch} from "../../search-utils";
 
 export class ControlPanelPlugin implements SearchPlugin {
     public pluginType = PluginType.ControlPanel;
@@ -76,6 +77,33 @@ export class ControlPanelPlugin implements SearchPlugin {
     public clearCache(): Promise<void> {
         return new Promise((resolve) => {
             resolve();
+        });
+    }
+
+    search(userInput: string): Promise<SearchResultItem[]> {
+        return new Promise((resolve) => {
+
+            const searchResultItems = this.controlPanelItems.map((item) => ({
+                description: item.Description,
+                executionArgument: item.Name,
+                hideMainWindowAfterExecution: true,
+                icon: {
+                    parameter: item.IconBase64
+                        ? `data:image/png;base64,${item.IconBase64}`
+                        : defaultControlPanelIcon,
+                    type: IconType.URL,
+                },
+                name: item.Name,
+                needsUserConfirmationBeforeExecution: false,
+                originPluginType: PluginType.ControlPanel,
+                searchable: [item.Name, item.Description],
+                supportsAutocompletion: false,
+                supportsOpenLocation: false,
+            }));
+
+            const searchResults = fuseSearch(searchResultItems, userInput);
+
+            resolve(searchResults);
         });
     }
 }

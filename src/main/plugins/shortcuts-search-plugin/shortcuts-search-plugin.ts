@@ -9,6 +9,7 @@ import { isValidIcon } from "./../../../common/icon/icon-helpers";
 import { OpenLocationPlugin } from "../../open-location-plugin";
 import { stringIsWhiteSpace } from "../../../common/helpers/string-helpers";
 import { getDefaultShortcutIcon } from "./shortcut-helpers";
+import {fuseSearch} from "../../search-utils";
 
 interface ExecutionArgumentDecodeResult {
     shortcutType: ShortcutType;
@@ -137,5 +138,13 @@ export class ShortcutsSearchPlugin implements SearchPlugin, OpenLocationPlugin {
             searchable: [shortcut.name, ...shortcut.tags],
             supportsOpenLocation: true,
         };
+    }
+
+    search(userInput: string): Promise<SearchResultItem[]> {
+        return new Promise((resolve) => {
+            const results = this.config.shortcuts.map((shortcut): SearchResultItem => this.createSearchResultItem(shortcut));
+            const searchResults = fuseSearch(results, userInput);
+            resolve(searchResults);
+        });
     }
 }

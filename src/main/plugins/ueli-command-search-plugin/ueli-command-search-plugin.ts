@@ -8,6 +8,7 @@ import { UeliCommandExecutionArgument } from "./ueli-command-execution-argument"
 import { ipcMain } from "electron";
 import { IpcChannels } from "../../../common/ipc-channels";
 import { TranslationSet } from "../../../common/translation/translation-set";
+import {fuseSearch} from "../../search-utils";
 
 export class UeliCommandSearchPlugin implements SearchPlugin {
     public readonly pluginType = PluginType.UeliCommandSearchPlugin;
@@ -122,5 +123,13 @@ export class UeliCommandSearchPlugin implements SearchPlugin {
                 name: this.translationSet.ueliCommandClearCaches,
             },
         ];
+    }
+
+    search(userInput: string): Promise<SearchResultItem[]> {
+        return new Promise((resolve) => {
+            const result = this.getAllCommands().map((command) => this.createSearchResultItemFromUeliCommand(command));
+            const searchResults = fuseSearch(result, userInput);
+            resolve(searchResults);
+        });
     }
 }

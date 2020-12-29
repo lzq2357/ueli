@@ -6,6 +6,7 @@ import { TranslationSet } from "../../../common/translation/translation-set";
 import { BrowserBookmark } from "./browser-bookmark";
 import { BrowserBookmarksOptions } from "../../../common/config/browser-bookmarks-options";
 import { BrowserBookmarkRepository } from "./browser-bookmark-repository";
+import {fuseSearch} from "../../search-utils";
 
 export class BrowserBookmarksPlugin implements SearchPlugin {
     public readonly pluginType = PluginType.BrowserBookmarks;
@@ -105,5 +106,16 @@ export class BrowserBookmarksPlugin implements SearchPlugin {
             originPluginType: this.pluginType,
             searchable: [browserBookmark.name, browserBookmark.url],
         };
+    }
+
+    search(userInput: string): Promise<SearchResultItem[]> {
+        return new Promise((resolve) => {
+            const results = this.browserBookmarks.map((bookmark) => {
+                return this.buildSearchResultItem(bookmark);
+            });
+            const searchResults = fuseSearch(results, userInput);
+
+            resolve(searchResults);
+        });
     }
 }

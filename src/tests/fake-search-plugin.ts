@@ -3,6 +3,7 @@ import { PluginType } from "../main/plugin-type";
 import { SearchResultItem } from "../common/search-result-item";
 import { UserConfigOptions } from "../common/config/user-config-options";
 import { TranslationSet } from "../common/translation/translation-set";
+import {fuseSearch} from "../main/search-utils";
 
 export class FakeSearchPlugin implements SearchPlugin {
     public pluginType: PluginType;
@@ -54,5 +55,14 @@ export class FakeSearchPlugin implements SearchPlugin {
 
     public getIndexRefreshCount() {
         return this.indexRefreshCount;
+    }
+
+    search(userInput: string): Promise<SearchResultItem[]> {
+
+        return new Promise((resolve) => {
+            const searchResults = fuseSearch(this.items, userInput);
+
+            resolve(searchResults);
+        });
     }
 }

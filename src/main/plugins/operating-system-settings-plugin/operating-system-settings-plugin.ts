@@ -5,6 +5,7 @@ import { UserConfigOptions } from "../../../common/config/user-config-options";
 import { TranslationSet } from "../../../common/translation/translation-set";
 import { OperatingSystemSettingsOptions } from "../../../common/config/operating-system-settings-options";
 import { OperatingSystemSettingRepository } from "./operating-system-setting-repository";
+import {fuseSearch} from "../../search-utils";
 
 export class OperatingSystemSettingsPlugin implements SearchPlugin {
     public readonly pluginType = PluginType.OperatingSystemSettingsPlugin;
@@ -67,6 +68,30 @@ export class OperatingSystemSettingsPlugin implements SearchPlugin {
             this.config = updatedConfig.operatingSystemSettingsOptions;
             this.translationSet = translationSet;
             resolve();
+        });
+    }
+
+    search(userInput: string): Promise<SearchResultItem[]> {
+        return new Promise((resolve, reject) => {
+            this.operatingSystemSettingRepository.getAll(this.translationSet)
+                .then((operatingSystemSettings) => {
+
+                    const result = operatingSystemSettings.map((operatingSystemSetting): SearchResultItem => {
+                        return {
+                            description: operatingSystemSetting.description,
+                            executionArgument: operatingSystemSetting.executionArgument,
+                            hideMainWindowAfterExecution: true,
+                            icon: operatingSystemSetting.icon,
+                            name: operatingSystemSetting.name,
+                            originPluginType: this.pluginType,
+                            searchable: [operatingSystemSetting.name, ...operatingSystemSetting.tags],
+                        };
+                    });
+                    const searchResults = fuseSearch(result, userInput);
+
+                    resolve(searchResults);
+                })
+                .catch((err) => reject(err));
         });
     }
 }

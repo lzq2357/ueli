@@ -7,6 +7,7 @@ import { UserConfigOptions } from "../../../common/config/user-config-options";
 import { ApplicationSearchOptions } from "../../../common/config/application-search-options";
 import { createFilePathDescription } from "../../helpers/file-path-helpers";
 import { OpenLocationPlugin } from "../../open-location-plugin";
+import {fuseSearch} from "../../search-utils";
 
 export class ApplicationSearchPlugin implements SearchPlugin, OpenLocationPlugin {
     public readonly pluginType = PluginType.ApplicationSearchPlugin;
@@ -98,5 +99,19 @@ export class ApplicationSearchPlugin implements SearchPlugin, OpenLocationPlugin
             searchable: [application.name],
             supportsOpenLocation: true,
         };
+    }
+
+    search(userInput: string): Promise<SearchResultItem[]> {
+        return new Promise((resolve, reject) => {
+            this.applicationRepository.getAll()
+                .then((applications) => {
+
+                    const result = applications.map((application) => this.createSearchResultItemFromApplication(application));
+                    const searchResults = fuseSearch(result, userInput);
+
+                    resolve(searchResults);
+                })
+                .catch((err) => reject(err));
+        });
     }
 }

@@ -5,6 +5,7 @@ import { UserConfigOptions } from "../../../common/config/user-config-options";
 import { TranslationSet } from "../../../common/translation/translation-set";
 import { OperatingSystemCommandsOptions } from "../../../common/config/operating-system-commands-options";
 import { OperatingSystemCommandRepository } from "./operating-system-commands-repository";
+import {fuseSearch} from "../../search-utils";
 
 export class OperatingSystemCommandsPlugin implements SearchPlugin {
     public pluginType = PluginType.OperatingSystemCommandsPlugin;
@@ -72,6 +73,35 @@ export class OperatingSystemCommandsPlugin implements SearchPlugin {
             this.config = updatedConfig.operatingSystemCommandsOptions;
             this.operatingSystemCommandRepository.updateConfig(updatedConfig, translationSet)
                 .then(() => resolve())
+                .catch((err) => reject(err));
+        });
+    }
+
+    search(userInput: string): Promise<SearchResultItem[]> {
+        return new Promise((resolve, reject) => {
+            this.operatingSystemCommandRepository.getAll()
+                .then((commands) => {
+                    if (commands.length === 0) {
+                        resolve([]);
+                    } else {
+
+                        const result = commands.map((command): SearchResultItem => {
+                            return {
+                                description: command.description,
+                                executionArgument: command.executionArgument,
+                                hideMainWindowAfterExecution: true,
+                                icon: command.icon,
+                                name: command.name,
+                                needsUserConfirmationBeforeExecution: true,
+                                originPluginType: this.pluginType,
+                                searchable: command.searchable,
+                            };
+                        });
+
+                        const searchResults = fuseSearch(result, userInput);
+                        resolve(searchResults);
+                    }
+                })
                 .catch((err) => reject(err));
         });
     }
