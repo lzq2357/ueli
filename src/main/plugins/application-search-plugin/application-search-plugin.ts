@@ -95,7 +95,7 @@ export class ApplicationSearchPlugin implements SearchPlugin, OpenLocationPlugin
             icon: application.icon,
             name: application.name,
             originPluginType: this.pluginType,
-            searchable: [application.name],
+            searchable: [application.name, application.name_pinyin, application.name_pinyin_first_letter],
             supportsOpenLocation: true,
         };
     }

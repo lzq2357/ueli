@@ -8,6 +8,7 @@ import { getApplicationIconFilePath } from "./application-icon-helpers";
 import { IconType } from "../../../common/icon/icon-type";
 import { Logger } from "../../../common/logger/logger";
 import { OperatingSystemVersion } from "../../../common/operating-system";
+import {convertToPinyinString, getShortPinyin, WITHOUT_TONE} from "pinyin4js";
 
 export class ProductionApplicationRepository implements ApplicationRepository {
     private applications: Application[];
@@ -84,10 +85,13 @@ export class ProductionApplicationRepository implements ApplicationRepository {
     }
 
     private createApplicationFromFilePath(filePath: string): Application {
+        const appName:string = basename(filePath).replace(extname(filePath), "");
         return {
             filePath,
             icon: this.defaultAppIcon,
-            name: basename(filePath).replace(extname(filePath), ""),
+            name: appName,
+            name_pinyin:convertToPinyinString(appName, "", WITHOUT_TONE),
+            name_pinyin_first_letter: getShortPinyin(appName)
         };
     }
 
