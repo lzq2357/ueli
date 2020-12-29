@@ -71,6 +71,7 @@
     "bulma-extensions": "^6.2.7",
     "ini": "^2.0.0",
     "sqlite": "^4.0.19",
-    "sqlite3": "^5.0.0"
+    "sqlite3": "^5.0.0",
+    "pinyin4js": "^1.3.18"
   }
 }
