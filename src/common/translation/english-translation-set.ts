@@ -257,6 +257,8 @@ export const englishTranslationSet: TranslationSet = {
     macOsSleepDescription: "Sleep computer",
     macOsLock: "Lock",
     macOsLockDescription: "Lock computer",
+    macOsScreenSaver: "ScreenSaver",
+    macOsScreenSaverDescription: "ScreenSaver",
 
     windowsShutdown: "Shut down",
     windowsShutdownDescription: "Shut down computer",
