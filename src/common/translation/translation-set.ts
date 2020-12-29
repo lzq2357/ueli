@@ -255,6 +255,8 @@ export interface TranslationSet {
     macOsSleepDescription: string;
     macOsLock: string;
     macOsLockDescription: string;
+    macOsScreenSaver?: string;
+    macOsScreenSaverDescription?: string;
 
     windowsShutdown: string;
     windowsShutdownDescription: string;
