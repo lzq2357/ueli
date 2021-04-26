@@ -1,5 +1,4 @@
 const path = require("path");
-const webpack = require("webpack");
 
 const mode = process.env.NODE_ENV === "production" ? "production" : "development";
 const devtool = process.env.NODE_ENV === "production" ? undefined : "source-map";
@@ -27,6 +26,9 @@ const mainConfig = {
     target: "electron-main",
     node: false,
     devtool,
+    externals: {
+        'sqlite3': 'commonjs sqlite3'
+    }
 }
 
 const rendererConfig = {
@@ -53,6 +55,9 @@ const rendererConfig = {
     target: "electron-renderer",
     node: false,
     devtool,
+    externals: {
+        'sqlite3': 'commonjs sqlite3'
+    }
 };
 
 module.exports = [

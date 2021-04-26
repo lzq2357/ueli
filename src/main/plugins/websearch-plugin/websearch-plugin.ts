@@ -7,8 +7,9 @@ import { WebSearchEngine } from "./web-search-engine";
 import { TranslationSet } from "../../../common/translation/translation-set";
 import { defaultWebSearchIcon } from "../../../common/icon/default-icons";
 import { isValidIcon } from "../../../common/icon/icon-helpers";
+import { AutoCompletionPlugin } from "../../auto-completion-plugin";
 
-export class WebSearchPlugin implements ExecutionPlugin {
+export class WebSearchPlugin implements ExecutionPlugin, AutoCompletionPlugin {
     public readonly pluginType = PluginType.WebSearchPlugin;
     private config: WebSearchOptions;
     private translationSet: TranslationSet;
@@ -55,8 +56,8 @@ export class WebSearchPlugin implements ExecutionPlugin {
 
                     for (const webSearchEngine of webSearchEngines) {
                         results.push({
-                            description: this.buildDescription(webSearchEngine, userInput),
-                            executionArgument: this.buildExecutionArgument(webSearchEngine, userInput),
+                            description: this.buildDescriptionFromUserInput(webSearchEngine, userInput),
+                            executionArgument: this.buildExecutionArgumentFromUserInput(webSearchEngine, userInput),
                             hideMainWindowAfterExecution: true,
                             icon: isValidIcon(webSearchEngine.icon) ? webSearchEngine.icon : defaultWebSearchIcon,
                             name: webSearchEngine.name,
@@ -83,6 +84,20 @@ export class WebSearchPlugin implements ExecutionPlugin {
         return this.urlExecutor(searchResultItem.executionArgument);
     }
 
+    public autoComplete(searchResultItem: SearchResultItem): string {
+        const searchUrl = searchResultItem.executionArgument.match(/^([^:]+:\/\/[^\/]+)\//) ?
+            RegExp.$1 :
+            searchResultItem.executionArgument;
+
+        const foundWebSearchEngine = this.config.webSearchEngines.find((websearchEngine) => {
+            return websearchEngine.url.includes(searchUrl);
+        });
+
+        const prefix = foundWebSearchEngine ? foundWebSearchEngine.prefix : "";
+
+        return `${prefix}${searchResultItem.name} `;
+    }
+
     public isEnabled() {
         return this.config.isEnabled;
     }
@@ -95,24 +110,32 @@ export class WebSearchPlugin implements ExecutionPlugin {
         });
     }
 
-    private getSearchTerm(webSearchEngine: WebSearchEngine, userInput: string): string {
+    private buildDescriptionFromUserInput(webSearchEngine: WebSearchEngine, userInput: string): string {
+        return this.buildDescriptionFromSearchTerm(webSearchEngine, this.getSearchTerm(webSearchEngine, userInput, true));
+    }
+
+    private buildDescriptionFromSearchTerm(webSearchEngine: WebSearchEngine, searchTerm: string): string {
+        return this.translationSet.websearchDescription
+            .replace("{{websearch_engine}}", webSearchEngine.name)
+            .replace("{{search_term}}", searchTerm);
+    }
+
+    private getSearchTerm(webSearchEngine: WebSearchEngine, userInput: string, skipEncoding = false): string {
         let searchTerm = userInput.replace(webSearchEngine.prefix, "");
 
-        if (webSearchEngine.encodeSearchTerm) {
+        if (webSearchEngine.encodeSearchTerm && !skipEncoding) {
             searchTerm = encodeURIComponent(searchTerm);
         }
 
         return searchTerm;
     }
 
-    private buildDescription(webSearchEngine: WebSearchEngine, userInput: string): string {
-        return this.translationSet.websearchDescription
-            .replace("{{websearch_engine}}", webSearchEngine.name)
-            .replace("{{search_term}}", this.getSearchTerm(webSearchEngine, userInput));
+    private buildExecutionArgumentFromUserInput(webSearchEngine: WebSearchEngine, userInput: string): string {
+        return this.buildExecutionArgumentFromSearchTerm(webSearchEngine, this.getSearchTerm(webSearchEngine, userInput));
     }
 
-    private buildExecutionArgument(webSearchEngine: WebSearchEngine, userInput: string): string {
-        return this.replaceQueryInUrl(this.getSearchTerm(webSearchEngine, userInput), webSearchEngine.url);
+    private buildExecutionArgumentFromSearchTerm(webSearchEngine: WebSearchEngine, searchTerm: string): string {
+        return this.replaceQueryInUrl(searchTerm, webSearchEngine.url);
     }
 
     private userInputMatches(userInput: string, fallback?: boolean): boolean {
@@ -154,13 +177,14 @@ export class WebSearchPlugin implements ExecutionPlugin {
 
                         const searchResultItems = suggestions.map((suggestion): SearchResultItem => {
                             return {
-                                description: this.buildDescription(websearchEngine, suggestion),
-                                executionArgument: this.buildExecutionArgument(websearchEngine, suggestion),
+                                description: this.buildDescriptionFromSearchTerm(websearchEngine, suggestion),
+                                executionArgument: this.buildExecutionArgumentFromSearchTerm(websearchEngine, suggestion),
                                 hideMainWindowAfterExecution: true,
                                 icon: isValidIcon(websearchEngine.icon) ? websearchEngine.icon : defaultWebSearchIcon,
                                 name: suggestion,
                                 originPluginType: this.pluginType,
                                 searchable: [],
+                                supportsAutocompletion: true,
                             };
                         });
 
