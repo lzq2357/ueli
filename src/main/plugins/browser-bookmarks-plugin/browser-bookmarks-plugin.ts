@@ -103,7 +103,7 @@ export class BrowserBookmarksPlugin implements SearchPlugin {
             name: browserBookmark.name || browserBookmark.url,
             needsUserConfirmationBeforeExecution: false,
             originPluginType: this.pluginType,
-            searchable: [browserBookmark.name, browserBookmark.url, browserBookmark.name_pinyin, browserBookmark.name_pinyin_first_letter],
+            searchable: [browserBookmark.name, browserBookmark.url].concat(browserBookmark.extension),
         };
     }
 }

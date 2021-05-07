@@ -130,14 +130,14 @@ export class ProductionApplicationRepository implements ApplicationRepository {
             const encodingString:string = detectedMap.encoding;
             let fileData = "";
 
-            //"ascii" | "utf8" | "utf-8" | "utf16le" | "ucs2" | "ucs-2" | "base64" | "latin1" | "binary" | "hex"
+            // "ascii" | "utf8" | "utf-8" | "utf16le" | "ucs2" | "ucs-2" | "base64" | "latin1" | "binary" | "hex"
             if(encodingString === "UTF-16LE"){
                 fileData = fileDataBin.toString("utf16le");
             }
             else{
                 fileData = fileDataBin.toString("utf-8");
             }
-            //CFBundleDisplayName、 CFBundleName
+            // CFBundleDisplayName、 CFBundleName
             const fileDataLines = fileData.split("\n");
             let bundName:string = "";
             for(const line of fileDataLines){
