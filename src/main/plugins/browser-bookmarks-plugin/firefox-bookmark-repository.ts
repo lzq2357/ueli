@@ -65,6 +65,11 @@ export class FirefoxBookmarkRepository implements BrowserBookmarkRepository {
     private getBookmarks(databaseFilePath: string): Promise<BrowserBookmark[]> {
         return open({filename: databaseFilePath, driver: Database})
             .then(db => db.all('SELECT b.title, p.url FROM moz_bookmarks b JOIN moz_places p ON b.fk = p.id WHERE b.type = 1'))
-            .then(bookmarks => bookmarks.map(b => ({ name: b.title, url: b.url })));
+            .then(bookmarks => bookmarks.map(b => ({
+                name: b.title,
+                url: b.url,
+                name_pinyin:"",
+                name_pinyin_first_letter:""
+            })));
     }
 }
