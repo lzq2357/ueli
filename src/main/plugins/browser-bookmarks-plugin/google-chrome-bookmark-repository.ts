@@ -88,7 +88,7 @@ export class GoogleChromeBookmarkRepository implements BrowserBookmarkRepository
             const name = item.name;
             const pinyin = convertToPinyinString(name, "", WITHOUT_TONE);
             const pinyinShort = getShortPinyin(name);
-            item.extension = [pinyin, pinyinShort];
+            item.searchable = [name, pinyin, pinyinShort];
         }
 
         return resultArray;

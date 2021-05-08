@@ -1,5 +1,5 @@
 export interface BrowserBookmark {
     name: string;
-    extension: string[];
+    searchable: string[];
     url: string;
 }

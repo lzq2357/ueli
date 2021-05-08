@@ -99,8 +99,8 @@ export class ProductionApplicationRepository implements ApplicationRepository {
         return {
             filePath,
             icon: this.defaultAppIcon,
-            name: appName,
-            extension:[namePinyin, namePinyinFirstLetter, appLocalName, appLocalNamePinyin, appLocalNamePinyinFistLetter]
+            name: appLocalName,
+            searchable:[appName, namePinyin, namePinyinFirstLetter, appLocalName, appLocalNamePinyin, appLocalNamePinyinFistLetter]
         };
     }
 

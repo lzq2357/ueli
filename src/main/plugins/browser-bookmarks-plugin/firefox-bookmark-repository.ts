@@ -71,7 +71,7 @@ export class FirefoxBookmarkRepository implements BrowserBookmarkRepository {
             .then(bookmarks => bookmarks.map(b => ({
                 name: b.title,
                 url: b.url,
-                extension:[convertToPinyinString(b.title, "", WITHOUT_TONE), getShortPinyin(b.title)]
+                searchable:[b.title, b.url, convertToPinyinString(b.title, "", WITHOUT_TONE), getShortPinyin(b.title)]
             })));
     }
 }
