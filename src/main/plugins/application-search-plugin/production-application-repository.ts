@@ -153,7 +153,7 @@ export class ProductionApplicationRepository implements ApplicationRepository {
                 }
             }
             if(bundName !=null && bundName !== ""){
-                return bundName.replace("\"", "").replace(";", "");
+                return bundName.replaceAll("\"", "").replace(";", "");
             }
         }
         return defaultName;
