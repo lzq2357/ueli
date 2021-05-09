@@ -1,4 +1,9 @@
 export enum IpcChannels {
+    /** 各种消息类型，
+     * ipcMain.on(IpcChannels.xxx) 监听消息
+     * ipcRenderer.send(IpcChannels.xxx) 发送消息
+     **/
+
     search = "search",
     searchResponse = "search-response",
     execute = "execute",

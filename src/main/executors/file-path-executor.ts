@@ -27,7 +27,7 @@ function openFile(filePath: string): Promise<void> {
 function executeFilePathWindowsAsPrivileged(filePath: string): Promise<void> {
     return executeCommand(`powershell -Command "& {Start-Process -Verb runas '${filePath}'}"`);
 }
-
+/** macos 根据路径 open */
 function executeFilePathMacOsAsPrivileged(filePath: string): Promise<void> {
     return executeCommand(`osascript -e 'do shell script "open \\"${filePath}\\"" with administrator privileges'`);
 }

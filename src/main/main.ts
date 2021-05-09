@@ -515,7 +515,7 @@ function getMainWindowBackgroundColor(userConfigOptions: UserConfigOptions): str
         ? transparent
         : toHex(userConfigOptions.colorThemeOptions.searchResultsBackgroundColor, "#FFFFFF");
 }
-
+/** 启动ueli 入口，监听各种事件 */
 function startApp() {
     createTrayIcon();
     createMainWindow();

@@ -128,6 +128,7 @@ export function getProductionSearchEngine(
                 logger,
                 operatingSystemVersion
             ),
+            // app 执行器
             filePathExecutor,
             filePathLocationExecutor,
         ),
@@ -145,6 +146,7 @@ export function getProductionSearchEngine(
         new WorkflowPlugin(
             config.workflowOptions,
             filePathExecutor,
+            // url选择后的执行器
             urlExecutor,
             executeCommand,
         ),

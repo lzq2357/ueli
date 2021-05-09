@@ -21,6 +21,7 @@ export class ApplicationSearchPlugin implements SearchPlugin, OpenLocationPlugin
                 openApplicationLocation: (filePath: string) => Promise<void>) {
         this.config = config;
         this.applicationRepository = applicationRepository;
+        // app执行器，即打开app的执行器
         this.executeApplication = executeApplication;
         this.openApplicationLocation = openApplicationLocation;
     }
@@ -36,6 +37,7 @@ export class ApplicationSearchPlugin implements SearchPlugin, OpenLocationPlugin
         });
     }
 
+    /** 选择后 执行 app */
     public execute(searchResultItem: SearchResultItem, privileged: boolean): Promise<void> {
         return new Promise((resolve, reject) => {
             this.executeApplication(searchResultItem.executionArgument, privileged)
