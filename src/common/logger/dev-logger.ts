@@ -19,7 +19,7 @@ export class DevLogger implements Logger {
     }
 
     public debug(message: string, ...restOfMessage:string[]): void {
-        if(restOfMessage == null){
+        if(restOfMessage == null || restOfMessage.length === 0){
             this.logger.debug(message);
             return;
         }
@@ -28,7 +28,7 @@ export class DevLogger implements Logger {
     }
 
     public error(message: string, ...restOfMessage:string[]): void {
-        if(restOfMessage == null){
+        if(restOfMessage == null || restOfMessage.length === 0){
             this.logger.debug(message);
             return;
         }

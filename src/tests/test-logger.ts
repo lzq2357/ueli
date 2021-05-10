@@ -10,23 +10,7 @@ export class TestLogger implements Logger {
     }
 
     public debug(message: string, ...restOfMessage:string[]) {
-        if(restOfMessage == null){
-            this.messages.push({
-                message,
-                type: LogMessageType.Error,
-            });
-            return;
-        }
-        let tmpMessage = restOfMessage.join(message);
-        message = tmpMessage;
-        this.messages.push({
-            message,
-            type: LogMessageType.Error,
-        });
-    }
-
-    public error(message: string, ...restOfMessage:string[]) {
-        if(restOfMessage == null){
+        if(restOfMessage == null || restOfMessage.length === 0){
             this.messages.push({
                 message,
                 type: LogMessageType.Debug,
@@ -38,6 +22,22 @@ export class TestLogger implements Logger {
         this.messages.push({
             message,
             type: LogMessageType.Debug,
+        });
+    }
+
+    public error(message: string, ...restOfMessage:string[]) {
+        if(restOfMessage == null || restOfMessage.length === 0){
+            this.messages.push({
+                message,
+                type: LogMessageType.Error,
+            });
+            return;
+        }
+        let tmpMessage = restOfMessage.join(message);
+        message = tmpMessage;
+        this.messages.push({
+            message,
+            type: LogMessageType.Error,
         });
     }
 
