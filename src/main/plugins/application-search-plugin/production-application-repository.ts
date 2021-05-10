@@ -117,7 +117,6 @@ export class ProductionApplicationRepository implements ApplicationRepository {
             return defaultName;
         }
         const allFileNames: string[] = readdirSync(resourcePath);
-        this.logger.debug(":", "parseAppLocalName, resourcePath is ", resourcePath , "file is"+allFileNames);
         for(const fileName of allFileNames){
             // zh-Hans.lproj, zh_CN.lproj，Base.lproj
             if(fileName !== "zh-Hans.lproj" && fileName !== "zh_CN.lproj" && fileName !== "Base.lproj"){
