@@ -1,5 +1,5 @@
 export interface Logger {
-    debug(message: string): void;
-    error(message: string): void;
+    debug(messageOrSeparator: string, ...restOfMessage:string[]): void;
+    error(messageOrSeparator: string, ...restOfMessage:string[]): void;
     openLog(): Promise<void>;
 }

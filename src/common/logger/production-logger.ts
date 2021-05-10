@@ -33,12 +33,22 @@ export class ProductionLogger implements Logger {
         });
     }
 
-    public debug(message: string): void {
-        this.logger.debug(message);
+    public debug(message: string, ...restOfMessage:string[]): void {
+        if(restOfMessage == null){
+            this.logger.debug(message);
+            return;
+        }
+        let tmpMessage = restOfMessage.join(message);
+        this.logger.debug(tmpMessage);
     }
 
-    public error(message: string): void {
-        this.logger.error(message);
+    public error(message: string, ...restOfMessage:string[]): void {
+        if(restOfMessage == null){
+            this.logger.debug(message);
+            return;
+        }
+        let tmpMessage = restOfMessage.join(message);
+        this.logger.error(tmpMessage);
     }
 
     public openLog(): Promise<void> {

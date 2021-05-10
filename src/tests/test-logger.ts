@@ -9,14 +9,32 @@ export class TestLogger implements Logger {
         this.messages = [];
     }
 
-    public debug(message: string) {
+    public debug(message: string, ...restOfMessage:string[]) {
+        if(restOfMessage == null){
+            this.messages.push({
+                message,
+                type: LogMessageType.Error,
+            });
+            return;
+        }
+        let tmpMessage = restOfMessage.join(message);
+        message = tmpMessage;
         this.messages.push({
             message,
             type: LogMessageType.Error,
         });
     }
 
-    public error(message: string) {
+    public error(message: string, ...restOfMessage:string[]) {
+        if(restOfMessage == null){
+            this.messages.push({
+                message,
+                type: LogMessageType.Debug,
+            });
+            return;
+        }
+        let tmpMessage = restOfMessage.join(message);
+        message = tmpMessage;
         this.messages.push({
             message,
             type: LogMessageType.Debug,

@@ -95,7 +95,8 @@ export class ProductionApplicationRepository implements ApplicationRepository {
         const appLocalName:string = this.parseAppLocalName(filePath, appName);
         const appLocalNamePinyin:string = convertToPinyinString(appLocalName, "", WITHOUT_TONE);
         const appLocalNamePinyinFistLetter:string = getShortPinyin(appLocalName);
-
+        this.logger.debug(",", "ProductionApplicationRepository.createApplicationFromFilePath",
+            appName, namePinyin, namePinyinFirstLetter,appLocalName, appLocalNamePinyin,appLocalNamePinyinFistLetter);
         return {
             filePath,
             icon: this.defaultAppIcon,
@@ -105,30 +106,36 @@ export class ProductionApplicationRepository implements ApplicationRepository {
     }
 
     private parseAppLocalName(filepath: string, defaultName: string): string {
-        //系统app 不处理， /System/Applications/xxx
+        // 系统app 不处理， /System/Applications/xxx
         if(!filepath.startsWith("/Applications")){
+            this.logger.debug("parseAppLocalName: not process, path is " + filepath);
             return defaultName;
         }
         const resourcePath:string = filepath + "/Contents/Resources/";
         if(!existsSync(resourcePath)){
+            this.logger.debug("parseAppLocalName: not process, not exist Resources : " + resourcePath);
             return defaultName;
         }
         const allFileNames: string[] = readdirSync(resourcePath);
-        console.log(resourcePath + allFileNames);
+        this.logger.debug(resourcePath + allFileNames);
         for(const fileName of allFileNames){
             // zh-Hans.lproj, zh_CN.lproj
-            if(fileName !== "zh-Hans.lproj" && fileName !== "zh_CN.lproj"){
+            if(fileName !== "zh-Hans.lproj" && fileName !== "zh_CN.lproj" && fileName !== "Base.lproj"){
                 continue;
             }
+
+            this.logger.debug("parseAppLocalName: processing ,fileName : " + fileName);
             // InfoPlist.strings
             const filePathFinal:string = resourcePath + fileName + "/InfoPlist.strings";
             if(!existsSync(filePathFinal)){
+                this.logger.debug("parseAppLocalName: not process, not exist InfoPlist.strings : " + filePathFinal);
                 return defaultName;
             }
             const fileDataBin = readFileSync(filePathFinal);
             const detectedMap = detect(fileDataBin);
             const encodingString:string = detectedMap.encoding;
             let fileData = "";
+            this.logger.debug("parseAppLocalName: encodingString=" + encodingString);
 
             // "ascii" | "utf8" | "utf-8" | "utf16le" | "ucs2" | "ucs-2" | "base64" | "latin1" | "binary" | "hex"
             if(encodingString === "UTF-16LE"){
@@ -142,11 +149,13 @@ export class ProductionApplicationRepository implements ApplicationRepository {
             let bundName:string = "";
             for(const line of fileDataLines){
                 if(line.indexOf("CFBundleDisplayName") !== -1){
+                    this.logger.debug("parseAppLocalName: CFBundleDisplayName line=" + line);
                     const bundleNames = line.split("=");
                     bundName = bundleNames[1];
                     break;
                 }
                 if(line.indexOf("CFBundleName") !== -1){
+                    this.logger.debug("parseAppLocalName: CFBundleName line=" + line);
                     const bundleNames = line.split("=");
                     bundName = bundleNames[1];
                     break;
