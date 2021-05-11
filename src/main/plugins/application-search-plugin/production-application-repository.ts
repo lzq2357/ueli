@@ -92,7 +92,7 @@ export class ProductionApplicationRepository implements ApplicationRepository {
         const appName:string = basename(filePath).replace(extname(filePath), "");
         const namePinyin:string = convertToPinyinString(appName, "", WITHOUT_TONE);
         const namePinyinFirstLetter:string = getShortPinyin(appName);
-        const appLocalName:string = this.parseAppLocalName(filePath, appName);
+        const appLocalName:string = this.findAppLocalName(filePath, appName);
         const appLocalNamePinyin:string = convertToPinyinString(appLocalName, "", WITHOUT_TONE);
         const appLocalNamePinyinFistLetter:string = getShortPinyin(appLocalName);
         this.logger.debug(",", "ProductionApplicationRepository.createApplicationFromFilePath",
@@ -105,66 +105,97 @@ export class ProductionApplicationRepository implements ApplicationRepository {
         };
     }
 
-    private parseAppLocalName(filepath: string, defaultName: string): string {
+    private findAppLocalName(filepath: string, defaultName: string): string {
         // 系统app 不处理， /System/Applications/xxx
-        if(!filepath.startsWith("/Applications")){
+        if (!filepath.startsWith("/Applications")) {
             this.logger.debug("parseAppLocalName: not process, path is " + filepath);
             return defaultName;
         }
-        const resourcePath:string = filepath + "/Contents/Resources/";
-        if(!existsSync(resourcePath)){
+        const resourcePath: string = filepath + "/Contents/Resources/";
+        if (!existsSync(resourcePath)) {
             this.logger.debug("parseAppLocalName: not process, not exist Resources : " + resourcePath);
             return defaultName;
         }
         const allFileNames: string[] = readdirSync(resourcePath);
-        for(const fileName of allFileNames){
-            // zh-Hans.lproj, zh_CN.lproj，Base.lproj
-            if(fileName !== "zh-Hans.lproj" && fileName !== "zh_CN.lproj" && fileName !== "Base.lproj"){
-                continue;
-            }
+        let zhName = null;
 
-            this.logger.debug("parseAppLocalName: processing ,fileName : " + fileName);
-            // InfoPlist.strings
-            const filePathFinal:string = resourcePath + fileName + "/InfoPlist.strings";
-            if(!existsSync(filePathFinal)){
-                this.logger.debug("parseAppLocalName: not process, not exist InfoPlist.strings : " + filePathFinal);
-                return defaultName;
-            }
-            const fileDataBin = readFileSync(filePathFinal);
-            const detectedMap = detect(fileDataBin);
-            const encodingString:string = detectedMap.encoding;
-            let fileData = "";
-            this.logger.debug("parseAppLocalName: encodingString=" + encodingString);
-
-            // "ascii" | "utf8" | "utf-8" | "utf16le" | "ucs2" | "ucs-2" | "base64" | "latin1" | "binary" | "hex"
-            if(encodingString === "UTF-16LE"){
-                fileData = fileDataBin.toString("utf16le");
-            }
-            else{
-                fileData = fileDataBin.toString("utf-8");
-            }
-            // CFBundleDisplayName、 CFBundleName
-            const fileDataLines = fileData.split("\n");
-            let bundName:string = "";
-            for(const line of fileDataLines){
-                if(line.indexOf("CFBundleDisplayName") !== -1){
-                    this.logger.debug("parseAppLocalName: CFBundleDisplayName line=" + line);
-                    const bundleNames = line.split("=");
-                    bundName = bundleNames[1];
-                    break;
-                }
-                if(line.indexOf("CFBundleName") !== -1){
-                    this.logger.debug("parseAppLocalName: CFBundleName line=" + line);
-                    const bundleNames = line.split("=");
-                    bundName = bundleNames[1];
+        for (const fileName of allFileNames) {
+            if (fileName === "zh-Hans.lproj" || fileName === "zh_CN.lproj" || fileName === "Base.lproj") {
+                const filePathFinal: string = resourcePath + fileName + "/InfoPlist.strings";
+                const tmpName  = this.parseAppLocalNameFromFile(filePathFinal);
+                if(ProductionApplicationRepository.containChinese(tmpName)) {
+                    zhName = tmpName;
                     break;
                 }
             }
-            if(bundName !=null && bundName !== ""){
-                return bundName.replaceAll("\"", "").replace(";", "");
+            if (fileName === "InfoPlist.strings") {
+                const filePathFinal: string = resourcePath + "/InfoPlist.strings";
+                const tmpName = this.parseAppLocalNameFromFile(filePathFinal);
+                if(ProductionApplicationRepository.containChinese(tmpName)) {
+                    zhName = tmpName;
+                    break;
+                }
             }
         }
-        return defaultName;
+        if(zhName == null){
+            zhName = defaultName;
+        }
+        return zhName;
+    }
+
+    private parseAppLocalNameFromFile(filePath: string): string | null {
+        if(!existsSync(filePath)){
+            this.logger.debug("parseAppLocalName: not process, not exist InfoPlist.strings : " + filePath);
+            return null;
+        }
+
+        const fileDataBin = readFileSync(filePath);
+        const detectedMap = detect(fileDataBin);
+        const encodingString:string = detectedMap.encoding;
+        let fileData = "";
+        this.logger.debug("parseAppLocalName: encodingString=" + encodingString);
+
+        // "ascii" | "utf8" | "utf-8" | "utf16le" | "ucs2" | "ucs-2" | "base64" | "latin1" | "binary" | "hex"
+        if(encodingString === "UTF-16LE"){
+            fileData = fileDataBin.toString("utf16le");
+        }
+        else{
+            fileData = fileDataBin.toString("utf-8");
+        }
+        // CFBundleDisplayName、 CFBundleName
+        const fileDataLines = fileData.split("\n");
+        let bundName:string = "";
+        for(const line of fileDataLines){
+            if(line.indexOf("CFBundleDisplayName") !== -1){
+                this.logger.debug("parseAppLocalName: CFBundleDisplayName line=" + line);
+                const bundleNames = line.split("=");
+                bundName = bundleNames[1];
+                break;
+            }
+            if(line.indexOf("CFBundleName") !== -1){
+                this.logger.debug("parseAppLocalName: CFBundleName line=" + line);
+                const bundleNames = line.split("=");
+                bundName = bundleNames[1];
+                break;
+            }
+        }
+        let result = null;
+        if(bundName !=null && bundName !== ""){
+            result = bundName.replaceAll("\"", "").replaceAll(";", "").trim();
+        }
+        return result;
+    }
+
+    private static containChinese(str: string|null): boolean{
+        if(str == null || str.length === 0){
+            return false;
+        }
+        // 包含中文
+        if(/^.*[\u3220-\uFA29].*$/.test(str)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 
