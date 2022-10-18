@@ -8,6 +8,7 @@ import { IconType } from "../../../common/icon/icon-type";
 import { Browser } from "./browser";
 import { BrowserBookmark } from "./browser-bookmark";
 import { BrowserBookmarkRepository } from "./browser-bookmark-repository";
+import {convertToPinyinString, getShortPinyin, WITHOUT_TONE} from "pinyin4js";
 
 export class FirefoxBookmarkRepository implements BrowserBookmarkRepository {
     public browser = Browser.Firefox;
@@ -65,8 +66,10 @@ export class FirefoxBookmarkRepository implements BrowserBookmarkRepository {
     private getBookmarks(databaseFilePath: string): Promise<BrowserBookmark[]> {
         return open({ filename: databaseFilePath, driver: Database })
             .then((db) =>
-                db.all("SELECT b.title, p.url FROM moz_bookmarks b JOIN moz_places p ON b.fk = p.id WHERE b.type = 1"),
+                db.all('SELECT b.title, p.url FROM moz_bookmarks b JOIN moz_places p ON b.fk = p.id WHERE b.type = 1'),
             )
-            .then((bookmarks) => bookmarks.map((b) => ({ name: b.title, url: b.url })));
+            .then((bookmarks) => bookmarks.map((b) => ({ name: b.title, url: b.url
+                , searchable:[b.title, b.url, convertToPinyinString(b.title, "", WITHOUT_TONE), getShortPinyin(b.title)]
+            })));
     }
 }

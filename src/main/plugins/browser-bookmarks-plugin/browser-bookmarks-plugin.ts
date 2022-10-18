@@ -105,7 +105,7 @@ export class BrowserBookmarksPlugin implements SearchPlugin {
             name: browserBookmark.name || browserBookmark.url,
             needsUserConfirmationBeforeExecution: false,
             originPluginType: this.pluginType,
-            searchable: [browserBookmark.name, browserBookmark.url],
+            searchable: browserBookmark.searchable
         };
     }
 }
