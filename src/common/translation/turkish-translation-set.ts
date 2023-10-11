@@ -304,7 +304,7 @@ export const turkishTranslationSet: TranslationSet = {
 
     currencyConverter: "Döviz Çevirici",
     currencyConverterDescription:
-        "Bu eklenti para birimlerini hızlıca dönüştürmenizi sağlar. En son dönüşüm oranları https://exchangeratesapi.io/ tarafından sağlanmaktadır..",
+        "Bu eklenti para birimlerini hızlıca dönüştürmenizi sağlar. En son dönüşüm oranları https://github.com/fawazahmed0/currency-api/ tarafından sağlanmaktadır..",
     currencyConverterPrecision: "Hassas",
     currencyConverterCopyToClipboard: "Panoya kopyalamak için enter tuşuna basın",
 
@@ -387,4 +387,9 @@ export const turkishTranslationSet: TranslationSet = {
         "Bu eklenti, herhangi bir bölgenin hava durumunu kontrol etmenizi sağlar. Hiçbir bölge sağlanmazsa, geçerli konumunuzun hava durumunu göstermek varsayılan olarak sağlanır. Veriler wttr.in tarafından sağlanır",
     weatherTemperatureUnit: "Sıcaklık Birimi",
     weatherCopyToClipboard: "Panoya kopyalamak için enter tuşuna basın",
+
+    loremIpsum: "Lorem Ipsum",
+    loremIpsumPrefix: "Ön ek",
+    loremIpsumCopyToClipboard: "Panoya kopyalamak için enter tuşuna basın",
+    loremIpsumSettingsDescription: "Bu Eklenti, örnek metni hızlı bir şekilde panonuza kopyalamanıza olanak tanır.",
 };

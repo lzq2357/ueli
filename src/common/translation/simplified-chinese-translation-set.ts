@@ -293,7 +293,7 @@ export const simplifiedChineseTranslationSet: TranslationSet = {
     openNewMail: "打开新邮件",
 
     currencyConverter: "货币换算",
-    currencyConverterDescription: "根据 https://exchangeratesapi.io/ 数据来转换货币",
+    currencyConverterDescription: "根据 https://github.com/fawazahmed0/currency-api/ 数据来转换货币",
     currencyConverterPrecision: "精度",
     currencyConverterCopyToClipboard: "按 Enter 复制到剪贴板",
 
@@ -374,4 +374,9 @@ export const simplifiedChineseTranslationSet: TranslationSet = {
         "此插件可让您检查任何区域的天气状况。如果没有提供区域，则默认显示当前位置的天气。数据由 wttr.in 提供",
     weatherTemperatureUnit: "温度单位",
     weatherCopyToClipboard: "按 Enter 复制到剪贴板",
+
+    loremIpsum: "Lorem Ipsum",
+    loremIpsumPrefix: "前缀",
+    loremIpsumCopyToClipboard: "按 Enter 复制到剪贴板",
+    loremIpsumSettingsDescription: "此插件可让您快速将示例文本复制到剪贴板。",
 };

@@ -300,7 +300,7 @@ export const ukrainianTranslationSet: TranslationSet = {
     currencyConverter: "Конвертація валют",
 
     currencyConverterDescription:
-        "Цей плагін дозволяє швидко конвертувати валюти. Актуальні курси валют надані https://exchangeratesapi.io/.",
+        "Цей плагін дозволяє швидко конвертувати валюти. Актуальні курси валют надані https://github.com/fawazahmed0/currency-api/.",
     currencyConverterPrecision: "Точність",
     currencyConverterCopyToClipboard: "Натисніть клавішу enter, щоб скопіювати",
 
@@ -380,4 +380,9 @@ export const ukrainianTranslationSet: TranslationSet = {
         "Цей плагін дозволяє перевірити погодні умови будь-якого регіону. Якщо регіон не вказано, за замовчуванням відображається погода поточного розташування. Дані надаються wttr.in",
     weatherTemperatureUnit: "Одиниця виміру температури",
     weatherCopyToClipboard: "Натисніть клавішу enter, щоб скопіювати",
+
+    loremIpsum: "Lorem Ipsum",
+    loremIpsumPrefix: "Префікс",
+    loremIpsumCopyToClipboard: "Натисніть клавішу enter, щоб скопіювати",
+    loremIpsumSettingsDescription: "Цей плагін дозволяє швидко скопіювати зразок тексту в буфер обміну.",
 };

@@ -303,7 +303,7 @@ export const hindiTranslationSet: TranslationSet = {
 
     currencyConverter: "मुद्रा परिवर्तक",
     currencyConverterDescription:
-        "यह प्लगइन आपको मुद्राओं को जल्दी से बदलने में सक्षम बनाता है। नवीनतम रूपांतरण दरें https://exchangeratesapi.io/ द्वारा प्रदान की जाती हैं।",
+        "यह प्लगइन आपको मुद्राओं को जल्दी से बदलने में सक्षम बनाता है। नवीनतम रूपांतरण दरें https://github.com/fawazahmed0/currency-api/ द्वारा प्रदान की जाती हैं।",
     currencyConverterPrecision: "सटीक",
     currencyConverterCopyToClipboard: "क्लिपबोर्ड पर कॉपी करने के लिए एंटर दबाएं",
 
@@ -386,4 +386,9 @@ export const hindiTranslationSet: TranslationSet = {
         "यह प्लगइन आपको किसी भी क्षेत्र की मौसम की स्थिति की जांच करने में सक्षम बनाता है। यदि कोई क्षेत्र प्रदान नहीं किया गया है, तो यह डिफ़ॉल्ट रूप से आपके वर्तमान स्थान का मौसम दिखाता है। जानकारी wttr.in द्वारा प्रदान किया जाता है।",
     weatherTemperatureUnit: "तापमान इकाई",
     weatherCopyToClipboard: "क्लिपबोर्ड पर कॉपी करने के लिए एंटर दबाएं",
+
+    loremIpsum: "Lorem Ipsum",
+    loremIpsumPrefix: "उपसर्ग",
+    loremIpsumCopyToClipboard: "क्लिपबोर्ड पर कॉपी करने के लिए एंटर दबाएं",
+    loremIpsumSettingsDescription: "यह प्लगइन आपको नमूना पाठ को अपने क्लिपबोर्ड पर त्वरित रूप से कॉपी करने देता है।",
 };

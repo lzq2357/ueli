@@ -308,7 +308,7 @@ export const italianTranslationSet: TranslationSet = {
     openNewMail: "Crea nuova email",
     currencyConverter: "Convertitore di valuta",
     currencyConverterDescription:
-        "Questo plugin ti consente di convertire rapidamente le valute. Gli ultimi tassi di conversione sono forniti da https://exchangeratesapi.io/.",
+        "Questo plugin ti consente di convertire rapidamente le valute. Gli ultimi tassi di conversione sono forniti da https://github.com/fawazahmed0/currency-api/.",
     currencyConverterPrecision: "Precisione",
     currencyConverterCopyToClipboard: "Premi Invio per copiare negli appunti",
     workflows: "Flussi di lavoro",
@@ -385,4 +385,10 @@ export const italianTranslationSet: TranslationSet = {
         "Questo plugin ti consente di controllare le condizioni meteorologiche di qualsiasi regione. Se non viene fornita alcuna regione, per impostazione predefinita mostra il tempo della tua posizione attuale. I dati sono forniti da wttr.in",
     weatherTemperatureUnit: "Unità di temperatura",
     weatherCopyToClipboard: "Premi Invio per copiare negli appunti",
+
+    loremIpsum: "Lorem Ipsum",
+    loremIpsumPrefix: "Prefisso",
+    loremIpsumCopyToClipboard: "Premi Invio per copiare negli appunti",
+    loremIpsumSettingsDescription:
+        "Questo plugin ti consente di copiare rapidamente il testo di esempio negli appunti.",
 };

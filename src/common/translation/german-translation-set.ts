@@ -303,7 +303,7 @@ export const germanTranslationSet: TranslationSet = {
 
     currencyConverter: "Währungsumrechnung",
     currencyConverterDescription:
-        "Dieses Plugin erlaubt es dir schnell Währungsumrechnungen zu machen. Aktuelle Wechselkurse werden von https://exchangeratesapi.io/ bereit gestellt.",
+        "Dieses Plugin erlaubt es dir schnell Währungsumrechnungen zu machen. Aktuelle Wechselkurse werden von https://github.com/fawazahmed0/currency-api/ bereit gestellt.",
     currencyConverterPrecision: "Präzision",
     currencyConverterCopyToClipboard: "Drücke Enter um in die Zwischenablage zu kopieren",
 
@@ -386,4 +386,9 @@ export const germanTranslationSet: TranslationSet = {
         "Mit diesem Plugin können Sie die Wetterbedingungen jeder Region überprüfen. Wenn keine Region angegeben wird, wird standardmäßig das Wetter Ihres aktuellen Standorts angezeigt. Die Daten werden von wttr.in zur Verfügung gestellt",
     weatherTemperatureUnit: "Temperatureinheit",
     weatherCopyToClipboard: "Drücke Enter um in die Zwischenablage zu kopieren",
+
+    loremIpsum: "Lorem Ipsum",
+    loremIpsumPrefix: "Prefix",
+    loremIpsumCopyToClipboard: "Drücke Enter um in die Zwischenablage zu kopieren",
+    loremIpsumSettingsDescription: "Mit diesem Plugin können Sie Beispieltext in die Zwischenablage kopieren.",
 };

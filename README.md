@@ -41,7 +41,8 @@ This is a keystroke launcher for Windows and macOS.
 -   Run the application
 
 ### Installing on MacOS via `brew`
--  `brew install --cask ueli`
+
+-   `brew install --cask ueli`
 
 ## Features
 
@@ -59,7 +60,6 @@ Currently supported browsers:
 
 -   Google Chrome
 -   Chromium
--   Firefox
 -   Brave
 -   Vivaldi
 -   SideKick
@@ -94,7 +94,7 @@ This plugin enables you to quickly find control panel items.
 
 ### Currency Converter
 
-This plugin enables you to quickly convert currencies. The latest conversion rates are provided by https://exchangeratesapi.io/.
+This plugin enables you to quickly convert currencies. The latest conversion rates are provided by https://github.com/fawazahmed0/currency-api/.
 
 ![currency-converter](assets/feature-currency-converter.png)
 
@@ -130,6 +130,10 @@ This plugin enables you to use the native macOS search to find files and folders
 This plugin enables you to browse through your local file system. To start you have to enter a valid absolute filepath.
 
 ![file-browser](assets/feature-file-browser.png)
+
+### Lorem Ipsum
+
+This plugin enables you to copy sample text to your clipboard. To start, type lipsum followed by a number.
 
 ### Operating System Commands
 
@@ -210,6 +214,7 @@ This plugin enables you to quickly execute multiple things at once.
 -   English
 -   Chinese (简体中文)
 -   Czech (Česky)
+-   Finnish (Suomi)
 -   German (Deutsch)
 -   Hindi (हिन्दी)
 -   Italian (Italiano)
@@ -250,21 +255,21 @@ For more check [here](https://github.com/oliverschwendener/ueli/issues).
 
 -   Git
 -   Node 16.x.x
--   Yarn
+-   pnpm
 
 ### Setup
 
 ```
 $ git clone https://github.com/oliverschwendener/ueli
 $ cd ueli
-$ yarn
+$ pnpm install
 ```
 
 ### Run
 
 ```
-$ yarn bundle
-$ yarn start
+$ pnpm bundle
+$ pnpm start
 ```
 
 ### Debug
@@ -278,21 +283,21 @@ For debugging Visual Studio Code is recommended.
 ### Run tests
 
 ```
-$ yarn test
+$ pnpm test
 ```
 
-### Package
+### Build the app
 
 #### Create portable version
 
 ```
-$ yarn package:dir
+$ pnpm exec electron-builder --dir --config electron-builder-config.yml --publish never
 ```
 
 #### Create installer
 
 ```
-$ yarn package
+$ pnpm exec electron-builder --config electron-builder-config.yml --publish never
 ```
 
 ## Alternatives

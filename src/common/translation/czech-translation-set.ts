@@ -298,7 +298,7 @@ export const englishTranslationSet: TranslationSet = {
 
     currencyConverter: "Převodník měn",
     currencyConverterDescription:
-        "Tento plugin umožňuje rychle převádět měny. Nejnovější kurzy jsou uvedeny na adrese https://exchangeratesapi.io/.",
+        "Tento plugin umožňuje rychle převádět měny. Nejnovější kurzy jsou uvedeny na adrese https://github.com/fawazahmed0/currency-api/.",
     currencyConverterPrecision: "Přesnost",
     currencyConverterCopyToClipboard: "Stisknutím klávesy Enter zkopírujete do schránky",
 
@@ -381,4 +381,9 @@ export const englishTranslationSet: TranslationSet = {
         "Tento plugin umožňuje zkontrolovat povětrnostní podmínky v libovolné oblasti. Pokud není k dispozici žádná oblast, je ve výchozím nastavení možné zobrazit počasí aktuální polohy. Údaje poskytuje wttr.in",
     weatherTemperatureUnit: "Jednotka teploty",
     weatherCopyToClipboard: "Stisknutím klávesy Enter zkopírujete do schránky",
+
+    loremIpsum: "Lorem Ipsum",
+    loremIpsumPrefix: "Předpona",
+    loremIpsumCopyToClipboard: "Stisknutím klávesy Enter zkopírujete do schránky",
+    loremIpsumSettingsDescription: "Tento plugin vám umožní rychle zkopírovat ukázkový text do schránky.",
 };

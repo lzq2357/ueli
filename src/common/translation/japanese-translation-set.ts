@@ -298,7 +298,7 @@ export const japaneseTranslationSet: TranslationSet = {
 
     currencyConverter: "通貨コンバーター",
     currencyConverterDescription:
-        "このプラグインは素早く通貨を変換することができます。最新の交換レートは https://exchangeratesapi.io/ より提供されます。",
+        "このプラグインは素早く通貨を変換することができます。最新の交換レートは https://github.com/fawazahmed0/currency-api/ より提供されます。",
     currencyConverterPrecision: "精度",
     currencyConverterCopyToClipboard: "エンターを押下してクリップボードにコピー",
 
@@ -380,4 +380,10 @@ export const japaneseTranslationSet: TranslationSet = {
         "このプラグインは、あなたが任意の地域の気象条件を確認することができます。リージョンが指定されていない場合、既定では現在の場所の天気が表示されます。データは wttr.in によって提供されます",
     weatherTemperatureUnit: "温度単位",
     weatherCopyToClipboard: "エンターを押下してクリップボードにコピー",
+
+    loremIpsum: "Lorem Ipsum",
+    loremIpsumPrefix: "接頭辞",
+    loremIpsumCopyToClipboard: "エンターを押下してクリップボードにコピー",
+    loremIpsumSettingsDescription:
+        "このプラグインを使用すると、サンプル テキストをクリップボードにすばやくコピーできます。",
 };

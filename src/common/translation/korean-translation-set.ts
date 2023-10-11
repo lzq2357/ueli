@@ -296,7 +296,7 @@ export const koreanTranslationSet: TranslationSet = {
 
     currencyConverter: "통화 변환기",
     currencyConverterDescription:
-        "이 플러그인을 사용하면 통화를 빠르게 변환할 수 있습니다. 최신 환율은 https://exchangeratesapi.io/ 에서 제공합니다.",
+        "이 플러그인을 사용하면 통화를 빠르게 변환할 수 있습니다. 최신 환율은 https://github.com/fawazahmed0/currency-api/ 에서 제공합니다.",
     currencyConverterPrecision: "정밀도",
     currencyConverterCopyToClipboard: "Enter를 눌러 계산 결과를 클립보드에 복사",
 
@@ -378,4 +378,9 @@ export const koreanTranslationSet: TranslationSet = {
         "이 플러그인은 모든 지역의 날씨 상태를 확인할 수 있습니다. 지역이 제공되지 않으면 기본값으로 현재 위치의 날씨를 표시합니다. 데이터는 wttr.in 의해 제공됩니다.",
     weatherTemperatureUnit: "온도 단위",
     weatherCopyToClipboard: "Enter를 눌러 계산 결과를 클립보드에 복사",
+
+    loremIpsum: "Lorem Ipsum",
+    loremIpsumPrefix: "접두사",
+    loremIpsumCopyToClipboard: "Enter를 눌러 계산 결과를 클립보드에 복사",
+    loremIpsumSettingsDescription: "이 플러그인을 사용하면 클립보드에 샘플 텍스트를 빠르게 복사할 수 있습니다.",
 };

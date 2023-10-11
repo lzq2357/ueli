@@ -305,7 +305,7 @@ export const spanishTranslationSet: TranslationSet = {
 
     currencyConverter: "Conversor de divisa",
     currencyConverterDescription:
-        "Este plugin te permite convertir divisa de forma rápida. Los últimos ratios de conversión están provistos por https://exchangeratesapi.io/.",
+        "Este plugin te permite convertir divisa de forma rápida. Los últimos ratios de conversión están provistos por https://github.com/fawazahmed0/currency-api/.",
     currencyConverterPrecision: "Precisión",
     currencyConverterCopyToClipboard: "Presiona enter para copiar al portapapeles",
 
@@ -388,4 +388,10 @@ export const spanishTranslationSet: TranslationSet = {
         "Este plugin le permite comprobar el estado meteorológico de cualquier región. Si no se proporciona ninguna región, de forma predeterminada se muestra el clima de su ubicación actual. Los datos son proporcionados por wttr.in",
     weatherTemperatureUnit: "Unidad de temperatura",
     weatherCopyToClipboard: "Presiona enter para copiar al portapapeles",
+
+    loremIpsum: "Lorem Ipsum",
+    loremIpsumPrefix: "Prefijo",
+    loremIpsumCopyToClipboard: "Presiona enter para copiar al portapapeles",
+    loremIpsumSettingsDescription:
+        "Este complemento le permite copiar rápidamente texto de muestra en su portapapeles.",
 };

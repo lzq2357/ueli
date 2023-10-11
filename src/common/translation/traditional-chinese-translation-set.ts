@@ -293,7 +293,7 @@ export const traditionalChineseTranslationSet: TranslationSet = {
     openNewMail: "打開新電郵",
 
     currencyConverter: "貨幣換算",
-    currencyConverterDescription: "根據 https://exchangeratesapi.io/ 提供的匯率來轉換貨幣。",
+    currencyConverterDescription: "根據 https://github.com/fawazahmed0/currency-api/ 提供的匯率來轉換貨幣。",
     currencyConverterPrecision: "精確度",
     currencyConverterCopyToClipboard: "按 Enter 複製到剪貼簿",
 
@@ -374,4 +374,9 @@ export const traditionalChineseTranslationSet: TranslationSet = {
         "此外掛程式可讓您查詢任何區域的天氣狀況。如果沒有提供區域，則預設顯示現時位置的天氣。數據由 wttr.in 提供。",
     weatherTemperatureUnit: "溫度單位",
     weatherCopyToClipboard: "按 Enter 複製到剪貼簿",
+
+    loremIpsum: "Lorem Ipsum",
+    loremIpsumPrefix: "前綴",
+    loremIpsumCopyToClipboard: "按 Enter 複製到剪貼簿",
+    loremIpsumSettingsDescription: "此插件可讓您快速將示例文本複製到剪貼板。",
 };
