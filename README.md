@@ -1,3 +1,6 @@
+yarn bundle
+yarn exec electron-builder --config electron-builder-config.yml --publish never
+
 # ueli
 
 This is a keystroke launcher for Windows and macOS.
